@@ -13,5 +13,5 @@ export const ourFileRouter = {
 export type OurFileRouter = typeof ourFileRouter;
 
 // Required for UploadThing API route
-import { createNextRouteHandler } from "uploadthing/next";
-export const { GET, POST } = createNextRouteHandler({ router: ourFileRouter });
+import { createRouteHandler } from "uploadthing/next";
+export const { GET, POST } = createRouteHandler({ router: ourFileRouter });
