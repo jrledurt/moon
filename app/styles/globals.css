@@ -1,0 +1,368 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------- Theme tokens (easy to tweak later) ---------- */
+:root {
+  --bg-0: #0b1220;              /* base background */
+  --bg-1: #0f172a;              /* slate-900 */
+  --fg-0: #f8fafc;              /* slate-50 */
+  --fg-muted: #cbd5e1;          /* slate-300 */
+  --accent: #60a5fa;            /* blue-400 */
+  --border: rgba(148, 163, 184, 0.14); /* slate-400 @ 14% */
+  --card: rgba(15, 23, 42, 0.72);      /* translucent card */
+  --shadow-lg: 0 20px 35px -15px rgba(2, 8, 23, 0.65);
+  --shadow-md: 0 10px 18px -10px rgba(2, 8, 23, 0.55);
+  --ring: 0 0 0 3px rgba(96, 165, 250, 0.35);
+}
+
+/* ---------- Global resets & typography ---------- */
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-size: 20px; /* 1.25x larger than default 16px - more reasonable */
+}
+
+/* Subtle layered dark background with depth */
+body {
+  background:
+    radial-gradient(1200px 600px at 10% -10%, rgba(96, 165, 250, 0.08), transparent 60%),
+    radial-gradient(900px 500px at 100% 0%, rgba(16, 185, 129, 0.05), transparent 55%),
+    linear-gradient(180deg, var(--bg-0), var(--bg-1));
+  color: var(--fg-0);
+}
+
+/* ---------- Links, focus, selection ---------- */
+a {
+  color: inherit;
+  text-decoration: none;
+  text-underline-offset: 3px;
+  transition: color 180ms ease, text-decoration-color 180ms ease, opacity 180ms ease;
+}
+a:hover {
+  color: #e5f0ff;
+  text-decoration: underline;
+  text-decoration-color: rgba(148, 163, 184, 0.4);
+}
+a:focus-visible {
+  outline: none;
+  box-shadow: var(--ring);
+  border-radius: 8px;
+}
+
+::selection {
+  background: rgba(96, 165, 250, 0.35);
+  color: #0b1220;
+}
+
+/* ---------- Type rhythm (gentle defaults; utilities still win) ---------- */
+h1, h2, h3, h4, h5, h6 {
+  letter-spacing: 0.01em;
+  line-height: 1.25;
+  color: var(--fg-0);
+}
+p, ul, ol, blockquote {
+  color: var(--fg-0);
+  opacity: 0.96;
+}
+p + p {
+  margin-top: 0.75rem;
+}
+small, .muted {
+  color: var(--fg-muted);
+}
+
+/* ---------- Media polish ---------- */
+img, video, canvas {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+
+/* ---------- Cards (non-breaking: low-specificity via :where) ---------- */
+:where(.game-card) {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  backdrop-filter: saturate(1.15) blur(6px);
+  box-shadow: var(--shadow-md);
+  transition:
+    transform 220ms cubic-bezier(.2,.8,.2,1),
+    box-shadow 220ms cubic-bezier(.2,.8,.2,1),
+    border-color 220ms ease,
+    background-color 220ms ease;
+  will-change: transform;
+}
+.game-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+  border-color: rgba(96, 165, 250, 0.28);
+}
+.game-card:focus-within {
+  outline: none;
+  box-shadow: var(--shadow-lg), var(--ring);
+}
+
+/* ---------- Navigation buttons ---------- */
+.nav-button {
+  color: var(--fg-0) !important;
+  background-color: rgba(96, 165, 250, 0.2) !important; /* More visible light blue */
+  border-color: rgba(96, 165, 250, 0.4) !important;
+  border-width: 1px !important;
+  border-style: solid !important;
+  border-radius: 12px !important; /* Nice rounded corners */
+  margin-left: 0.75rem !important; /* 12px spacing between buttons */
+  font-size: 1rem !important; /* Proper size relative to new base font */
+  padding: 0.75rem 1.5rem !important; /* Fixed height padding */
+  font-weight: 500 !important; /* Medium weight for better readability */
+  height: 3rem !important; /* Fixed height for all nav buttons */
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+}
+.nav-button:first-child {
+  margin-left: 0 !important; /* Remove margin from first button */
+}
+.nav-button:hover {
+  background-color: rgba(96, 165, 250, 0.35) !important; /* Brighter on hover */
+  border-color: rgba(96, 165, 250, 0.6) !important;
+  color: #ffffff !important;
+  transform: translateY(-1px) !important; /* Subtle lift effect */
+}
+.nav-button:focus-visible {
+  outline: none !important;
+  box-shadow: var(--ring) !important;
+}
+
+/* ---------- Layout scaling adjustments for larger font size ---------- */
+nav {
+  height: auto !important;
+  min-height: 6rem !important; /* Taller nav for larger elements */
+}
+nav .h-16 {
+  height: auto !important;
+  min-height: 6rem !important;
+  padding: 1.25rem 0 !important; /* More padding */
+}
+main {
+  padding-top: 7rem !important; /* Adjust top padding for taller nav */
+}
+
+/* ---------- Universal button consistency ---------- */
+button, .btn, .button, input[type="submit"], 
+.bg-yellow-500, .bg-blue-600, .bg-green-600, .bg-red-600, .bg-purple-600, .bg-slate-600 {
+  height: 3rem !important; /* Same height as nav buttons */
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+  border-radius: 12px !important; /* Consistent rounded corners */
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  padding: 0.75rem 1.5rem !important;
+  transition: all 0.2s ease !important;
+}
+
+/* Footer link buttons */
+footer a {
+  height: 2.5rem !important; /* Slightly smaller for footer */
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0.5rem 1rem !important;
+  border-radius: 8px !important;
+  font-size: 0.9rem !important;
+  transition: all 0.2s ease !important;
+}
+
+footer a:hover {
+  background-color: rgba(96, 165, 250, 0.15) !important;
+}
+
+/* ---------- Evidence page specific styling ---------- */
+.evidence-subtitle {
+  font-family: 'Georgia', 'Times New Roman', serif !important; /* Beautiful serif font */
+  font-size: 1.75rem !important; /* Much larger than before */
+  font-weight: 300 !important; /* Light weight for elegance */
+  line-height: 1.4 !important; /* Perfect line spacing */
+  color: var(--fg-0) !important;
+  text-align: center !important;
+  max-width: 800px !important; /* Constrain width for readability */
+  margin: 0 auto !important; /* Center horizontally */
+  letter-spacing: 0.025em !important; /* Subtle letter spacing */
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important; /* Subtle shadow for depth */
+  font-style: italic !important; /* Elegant italic style */
+}
+
+.evidence-type-button {
+  height: 3rem !important; /* Same height as nav buttons */
+  padding: 0.75rem 1.5rem !important; /* Same padding as nav buttons */
+  border-radius: 12px !important;
+  border: 1px solid rgba(96, 165, 250, 0.4) !important; /* Same border as nav buttons */
+  background: rgba(96, 165, 250, 0.2) !important; /* Same background as nav buttons */
+  color: var(--fg-0) !important;
+  font-size: 1rem !important; /* Same font size as nav buttons */
+  font-weight: 500 !important; /* Same weight as nav buttons */
+  transition: all 0.2s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  text-align: left !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  margin-bottom: 0.75rem !important; /* Spacing between buttons */
+}
+
+.evidence-type-button:hover {
+  background-color: rgba(96, 165, 250, 0.35) !important; /* Same hover as nav buttons */
+  border-color: rgba(96, 165, 250, 0.6) !important;
+  color: #ffffff !important;
+  transform: translateY(-1px) !important; /* Same lift effect as nav buttons */
+}
+
+.evidence-type-button.selected {
+  background-color: rgba(96, 165, 250, 0.35) !important; /* Selected state like hover */
+  border-color: rgba(96, 165, 250, 0.6) !important;
+  color: #ffffff !important;
+  box-shadow: var(--ring) !important; /* Focus ring for selected state */
+}
+
+.evidence-textarea {
+  width: 100% !important;
+  padding: 1rem !important;
+  background: var(--card) !important;
+  border: 2px solid var(--border) !important;
+  border-radius: 12px !important;
+  color: var(--fg-0) !important;
+  font-size: 1rem !important;
+  line-height: 1.6 !important;
+  resize: none !important;
+  transition: border-color 0.2s ease !important;
+  box-sizing: border-box !important;
+}
+
+.evidence-textarea:focus {
+  outline: none !important;
+  border-color: var(--accent) !important;
+  box-shadow: var(--ring) !important;
+}
+
+.evidence-submit-button {
+  width: 100% !important;
+  height: 3rem !important;
+  background-color: rgba(96, 165, 250, 0.3) !important;
+  border: 2px solid var(--accent) !important;
+  border-radius: 12px !important;
+  color: var(--fg-0) !important;
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  transition: all 0.2s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+}
+
+.evidence-submit-button:hover {
+  background-color: rgba(96, 165, 250, 0.4) !important;
+  border-color: rgba(96, 165, 250, 0.8) !important;
+  transform: translateY(-1px) !important;
+}
+
+.evidence-success-message {
+  margin-top: 1.5rem !important;
+  padding: 1rem !important;
+  background: rgba(96, 165, 250, 0.1) !important;
+  border: 2px solid rgba(96, 165, 250, 0.3) !important;
+  border-radius: 12px !important;
+}
+
+.evidence-submission-card {
+  padding: 1rem !important;
+  background: var(--card) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 12px !important;
+  transition: all 0.2s ease !important;
+}
+
+.evidence-submission-card:hover {
+  border-color: rgba(96, 165, 250, 0.3) !important;
+}
+
+/* ---------- Layout scaling adjustments for larger font size ---------- */
+nav {
+  height: auto !important;
+  min-height: 6rem !important; /* Taller nav for larger elements */
+}
+nav .h-16 {
+  height: auto !important;
+  min-height: 6rem !important;
+  padding: 1.25rem 0 !important; /* More padding */
+}
+main {
+  padding-top: 7rem !important; /* Adjust top padding for taller nav */
+}
+
+/* Scale specific UI elements appropriately */
+.text-xl { font-size: 1rem !important; } /* Logo - reasonable size */
+.text-sm { font-size: 0.75rem !important; } /* Small text */
+.text-xs { font-size: 0.7rem !important; } /* Extra small text */
+
+/* ---------- Dividers & code ---------- */
+hr {
+  border: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+  margin: 1.5rem 0;
+}
+code, pre, kbd {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+}
+pre {
+  background: rgba(2, 8, 23, 0.6);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem;
+  overflow: auto;
+}
+
+/* ---------- Scrollbar (WebKit) ---------- */
+*::-webkit-scrollbar {
+  height: 10px;
+  width: 10px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.25);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.4);
+}
+
+/* ---------- Motion respect ---------- */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
